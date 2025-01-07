@@ -28,7 +28,7 @@ const LoginPage = () => {
   };
   return (
     <>
-      <LoadingBar color="#f11946" ref={loadingBarRef} />
+      <LoadingBar color="#7480ff" ref={loadingBarRef} />
       <div className="h-screen grid lg:grid-cols-2">
         {/* Left Side - Form */}
         <AuthImagePattern

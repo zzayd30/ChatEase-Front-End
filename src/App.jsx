@@ -25,13 +25,13 @@ function App() {
   if (isCheckingAuth && !authUser)
     return (
       <div className="flex items-center justify-center h-screen">
-        <LoadingBar color="#f11946" ref={loadingBarRef} />
+        <LoadingBar color="#7480ff" ref={loadingBarRef} />
       </div>
     );
 
   return (
     <>
-      <LoadingBar color="#f11946" ref={loadingBarRef} />
+      <LoadingBar color="#7480ff" ref={loadingBarRef} />
       <Navbar />
       <Routes>
         <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login"/>} />
