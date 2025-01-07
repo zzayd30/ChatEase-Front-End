@@ -10,9 +10,11 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuthStore } from "./store/useAuthStore";
 import LoadingBar from "react-top-loading-bar";
 import { Toaster } from "react-hot-toast";
+import { useThemeStore } from "./store/useStoreTheme";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const { theme } = useThemeStore();
   const loadingBarRef = useRef(null);
 
   useEffect(() => {
@@ -22,6 +24,10 @@ function App() {
     });
   }, [checkAuth]);
 
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
   if (isCheckingAuth && !authUser)
     return (
       <div className="flex items-center justify-center h-screen">
@@ -30,7 +36,7 @@ function App() {
     );
 
   return (
-    <>
+    <div data-theme={theme}>
       <LoadingBar color="#7480ff" ref={loadingBarRef} />
       <Navbar />
       <Routes>
@@ -41,7 +47,7 @@ function App() {
         <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login"/>} />
       </Routes>
       <Toaster />
-    </>
+    </div>
   );
 }
 
