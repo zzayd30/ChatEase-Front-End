@@ -13,9 +13,10 @@ import { Toaster } from "react-hot-toast";
 import { useThemeStore } from "./store/useStoreTheme";
 
 function App() {
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
   const { theme } = useThemeStore();
   const loadingBarRef = useRef(null);
+  console.log(onlineUsers);
 
   useEffect(() => {
     loadingBarRef.current?.continuousStart();

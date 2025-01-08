@@ -10,7 +10,6 @@ const ChatContainer = () => {
   const {
     messages,
     getMessages,
-    sendMessage,
     isMessagesLoading,
     selectedUser,
     subscribeToMessages,
@@ -25,13 +24,8 @@ const ChatContainer = () => {
   }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
 
   useEffect(() => {
-    if (selectedUser?._id) {
-      getMessages(selectedUser._id);
-    }
-  }, [sendMessage]);
-
-  useEffect(() => {
     if (messageEndRef.current && messages) {
+      console.log("scrolling to end");
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
@@ -75,9 +69,9 @@ const ChatContainer = () => {
               </time>
             </div>
             <div className="chat-bubble flex flex-col">
-              {message.image && (
+              {message.Image && (
                 <img
-                  src={message.image}
+                  src={message.Image}
                   alt="Attachment"
                   className="sm:max-w-[200px] rounded-md mb-2"
                 />
