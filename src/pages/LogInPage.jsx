@@ -29,15 +29,15 @@ const LoginPage = () => {
   return (
     <>
       <LoadingBar color="#7480ff" ref={loadingBarRef} />
-      <div className="h-screen grid lg:grid-cols-2">
+      <div className="h-[90vh] grid lg:grid-cols-2">
         {/* Left Side - Form */}
         <AuthImagePattern
           title={"Welcome back!"}
           subtitle={"Sign in to continue your conversations and catch up with your messages."}
         />
         {/* Right Side - Image/Pattern */}
-        <div className="flex flex-col justify-center items-center p-6 sm:p-12">
-          <div className="w-full max-w-md space-y-8">
+        <div className="flex flex-col justify-center items-center">
+          <div className="w-full max-w-md space-y-6">
             {/* Logo */}
             <div className="text-center mb-8">
               <div className="flex flex-col items-center gap-2 group">
