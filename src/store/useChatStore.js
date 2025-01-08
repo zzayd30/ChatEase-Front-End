@@ -24,7 +24,7 @@ export const useChatStore = create((set, get) => ({
     set({ isMessagesLoading: true });
     try {
       const res = await axiosInstance.get(`/messages/${userId}`);
-      set({ messages: res.data || [] }); // Ensure messages is an array, fallback to empty array
+      set({ messages: res.data || [] });
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
@@ -33,7 +33,7 @@ export const useChatStore = create((set, get) => ({
   },
   sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
-    const currentMessages = Array.isArray(messages) ? messages : [];
+    const currentMessages = get().getValidMessages({ messages });
     if (!selectedUser || !selectedUser._id) {
       toast.error("No recipient selected.");
       return;
@@ -56,6 +56,7 @@ export const useChatStore = create((set, get) => ({
     }
   },
   subscribeToMessages: () => {
+    get().unsubscribeFromMessages();
     const { selectedUser } = get();
     if (!selectedUser) return;
 
@@ -76,12 +77,13 @@ export const useChatStore = create((set, get) => ({
   },
   unsubscribeFromMessages: () => {
     const socket = useAuthStore.getState().socket;
-    if (socket && socket.connected) {
-      socket.off("newMessage");
-      console.log("Unsubscribed from newMessage event.");
-    } else {
-      console.warn("Socket not connected or not available.");
+    if (!socket || !socket.connected) {
+      console.warn("Socket is not connected or not available.");
+      return;
     }
+    socket.off("newMessage");
+    console.log("Unsubscribed from newMessage event.");
   },
   setSelectedUser: (selectedUser) => set({ selectedUser }),
+  getValidMessages: (state) => Array.isArray(state.messages) ? state.messages : [],
 }));

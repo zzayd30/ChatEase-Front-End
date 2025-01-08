@@ -8,14 +8,13 @@ const Navbar = () => {
   const { authUser, logout } = useAuthStore();
   return (
     <header
-      className="bg-base-100 border-b border-base-300 backdrop-blur-lg bg-base-100/80 fixed w-[95vw] top-0 z-40 "
+      className="bg-base-100 border-b border-base-300 backdrop-blur-lg bg-base-100/80 fixed md:w-[80vw] lg:w-[95vw] top-0 z-40 "
     >
       <div className="container h-16">
         <div className="flex items-center justify-between h-full">
           <div className="flex items-center gap-8">
             <Link to="/" className="flex items-center gap-2.5 hover:opacity-80 transition-all">
               <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                {/* <MessageSquare className="w-5 h-5 text-primary" /> */}
                 <img src={Logo} alt="Logo" className='w-5 h-5' />
               </div>
               <h1 className="text-lg font-bold">ChatEase</h1>
