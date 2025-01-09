@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: import.meta.env.BACKEND_URL + "/api",
+  baseURL: "https://chatease-backend.vercel.app/api",
   withCredentials: true,
 });
