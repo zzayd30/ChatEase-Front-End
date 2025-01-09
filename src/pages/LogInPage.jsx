@@ -29,7 +29,7 @@ const LoginPage = () => {
   return (
     <>
       <LoadingBar color="#7480ff" ref={loadingBarRef} />
-      <div className="h-[90vh] grid lg:grid-cols-2">
+      <div className="h-[89vh] grid lg:grid-cols-2 mt-8">
         {/* Left Side - Form */}
         <AuthImagePattern
           title={"Welcome back!"}
@@ -39,7 +39,7 @@ const LoginPage = () => {
         <div className="flex flex-col justify-center items-center">
           <div className="w-full max-w-md space-y-6">
             {/* Logo */}
-            <div className="text-center mb-8">
+            <div className="text-center mb-4">
               <div className="flex flex-col items-center gap-2 group">
                 <div
                   className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20

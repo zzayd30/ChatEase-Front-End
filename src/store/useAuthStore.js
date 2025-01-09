@@ -67,8 +67,9 @@ export const useAuthStore = create((set, get) => ({
       const response = await axiosInstance.put("/auth/update-profile", data);
       set({ authUser: response.data });
       toast.success("Profile updated successfully");
-    } catch (error) {
-      toast.error(error.response.data.message);
+    } catch (error) {;
+      toast.error("Picture size too large.");
+      console.error("Profile update error:", error);
     } finally {
       set({ isUpdatingProfile: false });
     }
@@ -80,7 +81,7 @@ export const useAuthStore = create((set, get) => ({
       query: { userId: authUser._id },
       reconnectionAttempts: 5, // Retry up to 5 times
       reconnectionDelay: 2000, // Wait 2 seconds between attempts
-    });    
+    });
 
     // Log connection status
     socket.on("connect", () => console.log("Socket connected"));

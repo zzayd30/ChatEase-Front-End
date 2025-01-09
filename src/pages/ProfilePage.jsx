@@ -10,19 +10,37 @@ const ProfilePage = () => {
   const loadingBarRef = useRef(null);
   const updateProfileImage = async (e) => {
     e.preventDefault();
+    const file = e.target.files?.[0];
+    if (!file) {
+      toast.error("No file selected");
+      return;
+    }
+
+    // Validate file type
+    const allowedFileTypes = ["image/jpeg", "image/png", "image/gif"];
+    if (!allowedFileTypes.includes(file.type)) {
+      toast.error("Invalid file type. Please select an image file.");
+      return;
+    }
+
     try {
       loadingBarRef.current?.continuousStart();
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = async () => {
-        const base64Image = reader.result;
-        setSelectedImg(base64Image);
-        await updateProfile({ profilePic: base64Image });
-      };
+
+      const readFileAsBase64 = (file) =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(new Error("Failed to read file"));
+          reader.readAsDataURL(file);
+        });
+
+      const base64Image = await readFileAsBase64(file);
+      setSelectedImg(base64Image);
+
+      await updateProfile({ profilePic: base64Image });
     } catch (error) {
       console.error("Profile update failed:", error);
+      toast.error("Profile update failed. Please try again.");
     } finally {
       loadingBarRef.current?.complete();
     }
@@ -43,7 +61,7 @@ const ProfilePage = () => {
             <div className="flex flex-col items-center gap-4">
               <div className="relative">
                 <img
-                  src={selectedImg || authUser.profilePic || "/avatar.png"}
+                  src={authUser.profilePic || "/avatar.png"}
                   alt="Profile"
                   className="size-32 rounded-full object-cover border-4 "
                 />
