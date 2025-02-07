@@ -16,7 +16,6 @@ function App() {
   const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
   const { theme } = useThemeStore();
   const loadingBarRef = useRef(null);
-  console.log(onlineUsers);
 
   useEffect(() => {
     loadingBarRef.current?.continuousStart();

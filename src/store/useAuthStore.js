@@ -40,7 +40,9 @@ export const useAuthStore = create((set, get) => ({
     set({ isLoggingIn: true });
     try {
       const res = await axiosInstance.post("/auth/login", data);
+      console.log(res.data);
       set({ authUser: res.data });
+      console.log("After Set");
       toast.success("Logged in successfully");
       get().connectSocket();
     } catch (error) {
@@ -75,16 +77,13 @@ export const useAuthStore = create((set, get) => ({
   connectSocket: () => {
     const { authUser } = get();
     if (!authUser || get().socket?.connected) return;
-    const socket = io("https://chatease-backend.vercel.app", {
+    const socket = io("http://localhost:3000", {
       query: { userId: authUser._id },
-      reconnectionAttempts: 5, // Retry up to 5 times
-      reconnectionDelay: 2000, // Wait 2 seconds between attempts
+      reconnectionAttempts: 5,
+      reconnectionDelay: 2000,
     });
-
-    // Log connection status
     socket.on("connect", () => console.log("Socket connected"));
     socket.on("disconnect", () => console.log("Socket disconnected"));
-
     set({ socket });
     socket.on("getOnlineUsers", (userIds) => {
       set({ onlineUsers: userIds });
@@ -93,7 +92,7 @@ export const useAuthStore = create((set, get) => ({
   disconnectSocket: () => {
     const socket = get().socket;
     if (socket?.connected) {
-      socket.removeAllListeners(); // Cleanup listeners
+      socket.removeAllListeners();
       socket.disconnect();
       set({ socket: null });
       console.log("Socket disconnected");
